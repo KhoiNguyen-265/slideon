@@ -1,0 +1,39 @@
+.slideon-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.slideon-track {
+    display: flex;
+    transition: transform 0.4s ease;
+}
+
+.slideon-slide {
+    flex: 0 0 calc(100% / 3);
+}
+
+.slideon-prev,
+.slideon-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    outline: none;
+    padding: 10px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.slideon-prev {
+    left: 10px;
+}
+
+.slideon-next {
+    right: 10px;
+}
+
+.disable {
+    display: none;
+}
