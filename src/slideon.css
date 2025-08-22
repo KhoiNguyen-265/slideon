@@ -10,7 +10,7 @@
 }
 
 .slideon-slide {
-    flex: 0 0 calc(100% / 3);
+    flex: 0 0 auto;
 }
 
 .slideon-prev,
