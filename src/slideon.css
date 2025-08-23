@@ -6,7 +6,6 @@
 
 .slideon-track {
     display: flex;
-    transition: transform 0.4s ease;
 }
 
 .slideon-slide {
