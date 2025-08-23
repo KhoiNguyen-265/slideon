@@ -1,7 +1,10 @@
 .slideon-wrapper {
-    position: relative;
     width: 100%;
     overflow: hidden;
+}
+
+.slideon-content {
+    position: relative;
 }
 
 .slideon-track {
@@ -33,6 +36,24 @@
     right: 10px;
 }
 
-.disable {
-    display: none;
+.slideon-nav {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.slideon-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.slideon-dot.active {
+    background: #333;
+    cursor: initial;
 }

@@ -1,7 +1,7 @@
 function Slideon(selector, options = {}) {
-    this.contain = document.querySelector(selector);
+    this.container = document.querySelector(selector);
 
-    if (!this.contain) {
+    if (!this.container) {
         console.error(`Slideon: Container "${selector}" not found!`);
         return;
     }
@@ -11,10 +11,11 @@ function Slideon(selector, options = {}) {
             items: 1,
             speed: 300,
             loop: true,
+            nav: true,
         },
         options
     );
-    this.slides = Array.from(this.contain.children);
+    this.slides = Array.from(this.container.children);
     this.currentIndex = this.opt.loop ? this.opt.items : 0;
 
     this._init();
@@ -22,10 +23,21 @@ function Slideon(selector, options = {}) {
 }
 
 Slideon.prototype._init = function () {
-    this.contain.classList.add("slideon-wrapper");
+    this.container.classList.add("slideon-wrapper");
 
+    this._createContent();
     this._createTrack();
-    this._createNavigation();
+    this._createControls();
+
+    if (this.opt.nav) {
+        this._createNav();
+    }
+};
+
+Slideon.prototype._createContent = function () {
+    this.content = document.createElement("div");
+    this.content.className = "slideon-content";
+    this.container.appendChild(this.content);
 };
 
 Slideon.prototype._createTrack = function () {
@@ -48,10 +60,10 @@ Slideon.prototype._createTrack = function () {
         slide.style.flexBasis = `calc(100% / ${this.opt.items})`;
         this.track.appendChild(slide);
     });
-    this.contain.appendChild(this.track);
+    this.content.appendChild(this.track);
 };
 
-Slideon.prototype._createNavigation = function () {
+Slideon.prototype._createControls = function () {
     this.prevBtn = document.createElement("button");
     this.nextBtn = document.createElement("button");
 
@@ -61,10 +73,41 @@ Slideon.prototype._createNavigation = function () {
     this.prevBtn.classList.add("slideon-prev");
     this.nextBtn.classList.add("slideon-next");
 
-    this.contain.append(this.prevBtn, this.nextBtn);
+    this.content.append(this.prevBtn, this.nextBtn);
 
     this.prevBtn.onclick = () => this.moveSLide(-1);
     this.nextBtn.onclick = () => this.moveSLide(1);
+};
+
+Slideon.prototype._createNav = function () {
+    this.navWrapper = document.createElement("div");
+    this.navWrapper.className = "slideon-nav";
+
+    const slideCount = this.opt.loop
+        ? this.slides.length - this.opt.items * 2
+        : this.slides.length;
+    const pageCount = Math.ceil(slideCount / this.opt.items);
+
+    for (let i = 0; i < pageCount; i++) {
+        const dot = document.createElement("button");
+        dot.className = "slideon-dot";
+
+        if (i === 0) {
+            dot.classList.add("active");
+        }
+
+        dot.onclick = () => {
+            this.currentIndex = this.opt.loop
+                ? i * this.opt.items + this.opt.items
+                : i * this.opt.items;
+
+            this._updatePosition();
+        };
+
+        this.navWrapper.appendChild(dot);
+    }
+
+    this.container.appendChild(this.navWrapper);
 };
 
 Slideon.prototype.moveSLide = function (step) {
@@ -81,16 +124,34 @@ Slideon.prototype.moveSLide = function (step) {
         if (this.opt.loop) {
             if (this.currentIndex <= 0) {
                 this.currentIndex = maxIndex - this.opt.items;
+
+                this._updatePosition(false);
             } else if (this.currentIndex >= maxIndex) {
                 this.currentIndex = this.opt.items;
-            }
 
-            this._updatePosition(false);
+                this._updatePosition(false);
+            }
         }
         this._isAnimating = false;
     }, this.opt.speed);
 
     this._updatePosition();
+};
+
+Slideon.prototype._updateNav = function () {
+    let realIndex = this.currentIndex;
+
+    if (this.opt.loop) {
+        const slideCount = this.slides.length - this.opt.items * 2;
+        realIndex =
+            (this.currentIndex - this.opt.items + slideCount) % slideCount;
+    }
+
+    const pageIndex = Math.floor(realIndex / this.opt.items);
+
+    const dots = Array.from(this.navWrapper.children).forEach((dot, index) =>
+        dot.classList.toggle("active", index === pageIndex)
+    );
 };
 
 Slideon.prototype._updatePosition = function (instance = true) {
@@ -100,4 +161,8 @@ Slideon.prototype._updatePosition = function (instance = true) {
         ? `transform ${this.opt.speed}ms ease`
         : "none";
     this.track.style.transform = `translateX(${this.offSet}%)`;
+
+    if (this.opt.nav && instance) {
+        this._updateNav();
+    }
 };
