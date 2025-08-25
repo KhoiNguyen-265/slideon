@@ -17,6 +17,9 @@ function Slideon(selector, options = {}) {
             prevButton: null,
             nextButton: null,
             slideBy: 1,
+            autoplay: false,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
         },
         options
     );
@@ -40,6 +43,31 @@ Slideon.prototype._init = function () {
     if (this.opt.nav) {
         this._createNav();
     }
+
+    if (this.opt.autoplay) {
+        this._startAutoplay();
+
+        if (this.opt.autoplayHoverPause) {
+            this.container.onmouseenter = () => this._stopAutoplay();
+            this.container.onmouseleave = () => this._startAutoplay();
+        }
+    }
+};
+
+Slideon.prototype._startAutoplay = function () {
+    if (this.autoplayTimer) return;
+
+    const slideBy = this.opt.slideBy;
+
+    this.autoplayTimer = setInterval(
+        () => this.moveSLide(slideBy),
+        this.opt.autoplayTimeout
+    );
+};
+
+Slideon.prototype._stopAutoplay = function () {
+    clearInterval(this.autoplayTimer);
+    this.autoplayTimer = null;
 };
 
 Slideon.prototype._createContent = function () {
@@ -98,13 +126,17 @@ Slideon.prototype._createControls = function () {
     this.nextBtn.onclick = () => this.moveSLide(stepSize);
 };
 
+Slideon.prototype._getSlideCount = function () {
+    return this.opt.loop
+        ? this.slides.length - this.opt.items * 2
+        : this.slides.length;
+};
+
 Slideon.prototype._createNav = function () {
     this.navWrapper = document.createElement("div");
     this.navWrapper.className = "slideon-nav";
 
-    const slideCount = this.opt.loop
-        ? this.slides.length - this.opt.items * 2
-        : this.slides.length;
+    const slideCount = this._getSlideCount();
     const pageCount = Math.ceil(slideCount / this.opt.items);
 
     for (let i = 0; i < pageCount; i++) {
@@ -138,15 +170,20 @@ Slideon.prototype.moveSLide = function (step) {
         Math.max(this.currentIndex + step, 0),
         maxIndex
     );
-
+    //4 5 6 (clone) 1 2 3 4 5 6 (root) 1 2 3 (clone)
+    //0 1 2         3 4 5 6 7 8        9 10 11
     setTimeout(() => {
         if (this.opt.loop) {
-            if (this.currentIndex <= 0) {
-                this.currentIndex = maxIndex - this.opt.items;
+            const slideCount = this._getSlideCount();
+            console.log(slideCount);
+
+            if (this.currentIndex < this.opt.items) {
+                this.currentIndex += slideCount;
+                console.log(this.currentIndex);
 
                 this._updatePosition(false);
-            } else if (this.currentIndex >= maxIndex) {
-                this.currentIndex = this.opt.items;
+            } else if (this.currentIndex > slideCount) {
+                this.currentIndex -= slideCount;
 
                 this._updatePosition(false);
             }
