@@ -12,6 +12,11 @@ function Slideon(selector, options = {}) {
             speed: 300,
             loop: true,
             nav: true,
+            controls: true,
+            controlsText: ["<", ">"],
+            prevButton: null,
+            nextButton: null,
+            slideBy: 1,
         },
         options
     );
@@ -27,7 +32,10 @@ Slideon.prototype._init = function () {
 
     this._createContent();
     this._createTrack();
-    this._createControls();
+
+    if (this.opt.controls) {
+        this._createControls();
+    }
 
     if (this.opt.nav) {
         this._createNav();
@@ -64,19 +72,30 @@ Slideon.prototype._createTrack = function () {
 };
 
 Slideon.prototype._createControls = function () {
-    this.prevBtn = document.createElement("button");
-    this.nextBtn = document.createElement("button");
+    this.prevBtn = this.opt.prevButton
+        ? document.querySelector(this.opt.prevButton)
+        : document.createElement("button");
+    this.nextBtn = this.opt.nextButton
+        ? document.querySelector(this.opt.nextButton)
+        : document.createElement("button");
 
-    this.prevBtn.textContent = "<";
-    this.nextBtn.textContent = ">";
+    if (!this.opt.prevButton) {
+        this.prevBtn.textContent = this.opt.controlsText[0];
+        this.prevBtn.classList.add("slideon-prev");
+        this.content.appendChild(this.prevBtn);
+    }
 
-    this.prevBtn.classList.add("slideon-prev");
-    this.nextBtn.classList.add("slideon-next");
+    if (!this.opt.nextButton) {
+        this.nextBtn.textContent = this.opt.controlsText[1];
+        this.nextBtn.classList.add("slideon-next");
+        this.content.appendChild(this.nextBtn);
+    }
 
-    this.content.append(this.prevBtn, this.nextBtn);
+    const stepSize =
+        this.opt.slideBy === "page" ? this.opt.items : this.opt.slideBy;
 
-    this.prevBtn.onclick = () => this.moveSLide(-1);
-    this.nextBtn.onclick = () => this.moveSLide(1);
+    this.prevBtn.onclick = () => this.moveSLide(-stepSize);
+    this.nextBtn.onclick = () => this.moveSLide(stepSize);
 };
 
 Slideon.prototype._createNav = function () {
