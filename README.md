@@ -49,7 +49,7 @@
 ## Local installation / GitHub repo
 
 
-# CDN 
+### CDN 
 
 Use it directly from jsDelivr CDN:
 
