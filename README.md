@@ -4,17 +4,6 @@
 
 ---
 
-## CDN (version v1.0.0)
-
-Use it directly from jsDelivr CDN:
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.0/slideon.min.css">
-<script src="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.0/slideon.min.js"></script>
-```
-
----
-
 ## Features
 
 * Pure JS + CSS, no external libraries.
@@ -59,11 +48,14 @@ Use it directly from jsDelivr CDN:
 
 ## Local installation / GitHub repo
 
-Include CSS and JS locally:
+
+# CDN 
+
+Use it directly from jsDelivr CDN:
 
 ```html
-<link rel="stylesheet" href="./src/slideon.css">
-<script src="./src/slideon.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon/slideon.min.css">
+<script src="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon/slideon.min.js"></script>
 ```
 
 Or install from GitHub (not published on npm yet):
