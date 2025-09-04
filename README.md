@@ -6,41 +6,44 @@
 
 ## Features
 
-* Pure JS + CSS, no external libraries.
-* Loop support (cloning at edges) for smooth transitions.
-* Auto-generated dot navigation.
-* Default prev/next controls with option to bind custom buttons.
-* Autoplay with hover pause support.
-* Multiple items per view (`items` option).
+-   Pure JS + CSS, no external libraries.
+-   Loop support (cloning at edges) for smooth transitions.
+-   Auto-generated dot navigation.
+-   Default prev/next controls with option to bind custom buttons.
+-   Autoplay with hover pause support.
+-   Multiple items per view (`items` option).
 
 ---
 
 ## Quick start (CDN)
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.0/slideon.min.css">
-</head>
-<body>
-  <div id="my-slider">
-    <div>Slide 1</div>
-    <div>Slide 2</div>
-    <div>Slide 3</div>
-  </div>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.1/slideon.min.css"
+        />
+    </head>
+    <body>
+        <div id="my-slider">
+            <div>Slide 1</div>
+            <div>Slide 2</div>
+            <div>Slide 3</div>
+        </div>
 
-  <script src="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.0/slideon.min.js"></script>
-  <script>
-    const mySlider = new Slideon('#my-slider', {
-      items: 1,
-      autoplay: true,
-      autoplayTimeout: 2500
-    });
-  </script>
-</body>
+        <script src="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.1/slideon.min.js"></script>
+        <script>
+            const mySlider = new Slideon("#my-slider", {
+                items: 1,
+                autoplay: true,
+                autoplayTimeout: 2500,
+            });
+        </script>
+    </body>
 </html>
 ```
 
@@ -48,14 +51,16 @@
 
 ## Local installation / GitHub repo
 
-
-### CDN 
+### CDN
 
 Use it directly from jsDelivr CDN:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon/slideon.min.css">
-<script src="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon/slideon.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.1/slideon.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/gh/KhoiNguyen-265/slideon@v1.0.1/slideon.min.js"></script>
 ```
 
 Or install from GitHub (not published on npm yet):
@@ -117,21 +122,21 @@ s._stopAutoplay();
 <button class="slide-prev">Prev</button>
 <button class="slide-next">Next</button>
 
-<div id="my-slider"> ... </div>
+<div id="my-slider">...</div>
 
 <script>
-  const mySlider = new Slideon('#my-slider', {
-    prevButton: '.slide-prev',
-    nextButton: '.slide-next',
-    items: 1
-  });
+    const mySlider = new Slideon("#my-slider", {
+        prevButton: ".slide-prev",
+        nextButton: ".slide-next",
+        items: 1,
+    });
 </script>
 ```
 
 **Multiple items per view**
 
 ```js
-new Slideon('#my-slider', { items: 3, slideBy: 'page' });
+new Slideon("#my-slider", { items: 3, slideBy: "page" });
 ```
 
 ---
@@ -140,9 +145,9 @@ new Slideon('#my-slider', { items: 3, slideBy: 'page' });
 
 The CSS is minimal (wrapper, track, slides, controls, nav, dots). You can override styles with your own CSS.
 
-* `.slideon-wrapper`, `.slideon-content`, `.slideon-track`, `.slideon-slide`
-* `.slideon-prev`, `.slideon-next`
-* `.slideon-nav`, `.slideon-dot`, `.slideon-dot.active`
+-   `.slideon-wrapper`, `.slideon-content`, `.slideon-track`, `.slideon-slide`
+-   `.slideon-prev`, `.slideon-next`
+-   `.slideon-nav`, `.slideon-dot`, `.slideon-dot.active`
 
 **Note**: When `loop` is enabled, cloned slides are added. If your slides contain unique IDs, they may be duplicated.
 
@@ -150,9 +155,9 @@ The CSS is minimal (wrapper, track, slides, controls, nav, dots). You can overri
 
 ## Troubleshooting
 
-* **`Slideon: Container "#foo" not found!`** → Check that the selector is correct and the container exists before calling `new Slideon()`.
-* **Slides not resizing correctly** → Ensure slides are direct children of the container. CSS uses `flex-basis: calc(100% / items)`.
-* **Autoplay not pausing on hover** → Make sure `autoplayHoverPause: true` is enabled and no JS errors are blocking event listeners.
+-   **`Slideon: Container "#foo" not found!`** → Check that the selector is correct and the container exists before calling `new Slideon()`.
+-   **Slides not resizing correctly** → Ensure slides are direct children of the container. CSS uses `flex-basis: calc(100% / items)`.
+-   **Autoplay not pausing on hover** → Make sure `autoplayHoverPause: true` is enabled and no JS errors are blocking event listeners.
 
 ---
 
@@ -166,9 +171,9 @@ See `index.html` in the repo for a working demo using local files.
 
 Contributions are welcome! PRs, issues, and improvements are appreciated. Some ideas:
 
-* Swipe/touch support for mobile
-* Callbacks/events on slide change
-* Lazy-loading support for images
+-   Swipe/touch support for mobile
+-   Callbacks/events on slide change
+-   Lazy-loading support for images
 
 ---
 
@@ -180,8 +185,8 @@ Default: **MIT**.
 
 ## Changelog
 
-* **v1.0.0**: Initial release — basic slider with loop, controls, nav, autoplay.
+-   **v1.0.0**: Initial release — basic slider with loop, controls, nav, autoplay.
 
 ---
 
-*This README was auto-generated based on `slideon.js`, `slideon.css`, and `index.html` demo.*
+_This README was auto-generated based on `slideon.js`, `slideon.css`, and `index.html` demo._
