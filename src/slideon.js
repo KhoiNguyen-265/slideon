@@ -20,6 +20,7 @@ function Slideon(selector, options = {}) {
             autoplay: false,
             autoplayTimeout: 3000,
             autoplayHoverPause: true,
+            gap: 8,
         },
         options
     );
@@ -79,6 +80,7 @@ Slideon.prototype._createContent = function () {
 Slideon.prototype._createTrack = function () {
     this.track = document.createElement("div");
     this.track.classList.add("slideon-track");
+    this.track.style.gap = `${this.opt.gap}px`;
 
     if (this.opt.loop) {
         const cloneHead = this.slides
@@ -93,7 +95,9 @@ Slideon.prototype._createTrack = function () {
 
     this.slides.forEach((slide) => {
         slide.classList.add("slideon-slide");
-        slide.style.flexBasis = `calc(100% / ${this.opt.items})`;
+        slide.style.flexBasis = `calc((100% - ${
+            (this.opt.items - 1) * this.opt.gap
+        }px) / ${this.opt.items})`;
         this.track.appendChild(slide);
     });
     this.content.appendChild(this.track);
@@ -213,10 +217,12 @@ Slideon.prototype._updateNav = function () {
 Slideon.prototype._updatePosition = function (instance = true) {
     this.offSet = -(this.currentIndex * 100) / this.opt.items;
 
+    const gapOffsetPx = (this.opt.gap * this.currentIndex) / this.opt.items;
+
     this.track.style.transition = instance
         ? `transform ${this.opt.speed}ms ease`
         : "none";
-    this.track.style.transform = `translateX(${this.offSet}%)`;
+    this.track.style.transform = `translateX(calc(${this.offSet}% - ${gapOffsetPx}px))`;
 
     if (this.opt.nav && instance) {
         this._updateNav();
